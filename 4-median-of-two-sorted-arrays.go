@@ -1,52 +1,92 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
-func findMiddle(nums []int) float64 {
-	length := len(nums)
-	if length%2 == 0 {
-		median1 := nums[length>>1]
-		median2 := nums[length>>1-1]
-		return float64(median1+median2) / 2
+var length, target int
+var median1, median2 float64
+
+func binarySearch(primary []int, secondary []int) bool {
+	for i, j := 0, len(primary)-1; i <= j; {
+		middle := (i + j) >> 1
+		rest := target - (middle + 1) - 1
+		if rest+1 < 0 || (rest+1 < len(secondary) && primary[middle] > secondary[rest+1]) {
+			j = middle - 1
+		} else if rest >= len(secondary) || (rest >= 0 && primary[middle] < secondary[rest]) {
+			i = middle + 1
+		} else {
+			median2 = float64(primary[middle])
+			if length%2 != 0 {
+				median1 = median2
+			} else {
+				flag := false
+				if rest >= 0 {
+					median1 = float64(secondary[rest])
+					flag = true
+				}
+				if middle >= 1 {
+					if flag {
+						median1 = math.Max(median1, float64(primary[middle-1]))
+					} else {
+						median1 = float64(primary[middle-1])
+					}
+				}
+			}
+			return true
+		}
 	}
-	return float64(nums[length>>1])
-}
-
-func getNthValue(n, l1, r1, l2, r2 int, nums1, nums2 []int) int {
-	// TODO
-	return 0
+	return false
 }
 
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
-	if len(nums1) == 0 {
-		return findMiddle(nums2)
-	} else if len(nums2) == 0 {
-		return findMiddle(nums1)
+	length = len(nums1) + len(nums2)
+	target = (length)>>1 + 1
+
+	if !binarySearch(nums1, nums2) {
+		binarySearch(nums2, nums1)
 	}
 
-	length := len(nums1) + len(nums2)
-	if length%2 == 0 {
-		n1 := length >> 1
-		n2 := n1 - 1
-		median1 := getNthValue(n1, 0, len(nums1)-1, 0, len(nums2)-1, nums1, nums2)
-		median2 := getNthValue(n2, 0, len(nums1)-1, 0, len(nums2)-1, nums1, nums2)
-		return float64(median1+median2) / 2
-	}
-	median := getNthValue(length>>1, 0, len(nums1)-1, 0, len(nums2)-1, nums1, nums2)
-	return float64(median)
+	return (median1 + median2) / 2
 }
 
 func main() {
 	var nums1, nums2 []int
 	var result float64
 
+	nums1 = []int{1}
+	nums2 = []int{}
+	result = findMedianSortedArrays(nums1, nums2)
+	fmt.Println("result: ", result)
+
+	nums1 = []int{0, 0}
+	nums2 = []int{0, 0}
+	result = findMedianSortedArrays(nums1, nums2)
+	fmt.Println("result: ", result)
+
 	nums1 = []int{1, 2, 3}
 	nums2 = []int{}
 	result = findMedianSortedArrays(nums1, nums2)
-	fmt.Println(result)
+	fmt.Println("result: ", result)
 
-	nums1 = []int{}
-	nums2 = []int{1, 2, 3, 4}
+	nums1 = []int{2}
+	nums2 = []int{1, 3, 4}
 	result = findMedianSortedArrays(nums1, nums2)
-	fmt.Println(result)
+	fmt.Println("result: ", result)
+
+	nums1 = []int{1, 3}
+	nums2 = []int{2}
+	result = findMedianSortedArrays(nums1, nums2)
+	fmt.Println("result: ", result)
+
+	nums1 = []int{1, 2}
+	nums2 = []int{3, 4}
+	result = findMedianSortedArrays(nums1, nums2)
+	fmt.Println("result: ", result)
+
+	nums1 = []int{1, 7, 8}
+	nums2 = []int{2, 3, 4, 5, 10, 30}
+	result = findMedianSortedArrays(nums1, nums2)
+	fmt.Println("result: ", result)
 }
