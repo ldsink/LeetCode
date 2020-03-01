@@ -1,33 +1,9 @@
 package main
 
-import "fmt"
-
-func quickSort(left, right int, numsPtr *[]int) {
-	if left >= right {
-		return
-	}
-	nums := *numsPtr
-	i, j := left, right
-	num := nums[i]
-	for ; i < j; {
-		for ; i < j; j-- {
-			if nums[j] < num {
-				nums[i] = nums[j]
-				i++
-				break
-			}
-		}
-		for ; i < j; i++ {
-			if nums[i] > num {
-				nums[j] = nums[i]
-				break
-			}
-		}
-	}
-	nums[i] = num
-	quickSort(left, i-1, numsPtr)
-	quickSort(i+1, right, numsPtr)
-}
+import (
+	"fmt"
+	"sort"
+)
 
 func binarySearch(left, right, n int, numsPtr *[]int) bool {
 	if left == right {
@@ -43,7 +19,7 @@ func binarySearch(left, right, n int, numsPtr *[]int) bool {
 }
 
 func threeSum(nums []int) [][]int {
-	quickSort(0, len(nums)-1, &nums)
+	sort.Ints(nums)
 	added := make(map[[2]int]bool)
 	var result [][]int
 	for i := 0; i < len(nums)-2; i++ {
@@ -70,8 +46,8 @@ func threeSum(nums []int) [][]int {
 
 func main() {
 	var nums []int
-	//nums = []int{-1, 0, 1, 2, -1, -4}
-	//fmt.Println(threeSum(nums))
+	nums = []int{-1, 0, 1, 2, -1, -4}
+	fmt.Println(threeSum(nums))
 	nums = []int{3, 0, -2, -1, 1, 2}
 	fmt.Println(threeSum(nums))
 }
