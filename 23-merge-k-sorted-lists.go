@@ -48,8 +48,7 @@ func popNode() *ListNode {
 
 func addNode(node *ListNode) {
 	listNodeHeap = append(listNodeHeap, node)
-	n := len(listNodeHeap) - 1
-	for ; n > 0; {
+	for n := len(listNodeHeap) - 1; n > 0; {
 		p := (n - 1) >> 1
 		if (*(listNodeHeap[n])).Val < (*(listNodeHeap[p])).Val {
 			listNodeHeap[n], listNodeHeap[p] = listNodeHeap[p], listNodeHeap[n]
@@ -67,22 +66,21 @@ func mergeKLists(lists []*ListNode) *ListNode {
 			addNode(node)
 		}
 	}
+
 	var result *ListNode
 	result = popNode()
 	if result == nil {
 		return result
 	}
-	current := result
-	if (*current).Next != nil {
-		addNode((*current).Next)
+	if (*result).Next != nil {
+		addNode((*result).Next)
 	}
-	for ; len(listNodeHeap) != 0; {
-		node := popNode()
-		if (*node).Next != nil {
-			addNode((*node).Next)
-		}
+	for current, node := result, popNode(); node != nil; node = popNode() {
 		(*current).Next = node
 		current = node
+		if (*current).Next != nil {
+			addNode((*current).Next)
+		}
 	}
 	return result
 }
