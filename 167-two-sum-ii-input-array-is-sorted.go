@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 const failed = -1
 
 func findIndex(number int, nums []int, start, end int) int {
@@ -44,11 +42,4 @@ func twoSum(nums []int, target int) []int {
 			return []int{start + 1, idx + 1}
 		}
 	}
-}
-
-func main() {
-	nums := []int{2, 7, 11, 15}
-	target := 9
-	result := twoSum(nums, target)
-	fmt.Println(result)
 }

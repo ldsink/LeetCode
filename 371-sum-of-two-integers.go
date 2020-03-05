@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"unsafe"
 )
 
@@ -46,18 +45,4 @@ func getUIntSum(a, b uint) uint {
 
 func getSum(a int, b int) int {
 	return int(getUIntSum(uint(a), uint(b)))
-}
-
-func main() {
-	result := getSum(1, 2)
-	fmt.Println(result)
-
-	result = getSum(-1, 3)
-	fmt.Println(result)
-
-	result = getSum(-123, 0)
-	fmt.Println(result)
-
-	result = getSum(-123, -4)
-	fmt.Println(result)
 }

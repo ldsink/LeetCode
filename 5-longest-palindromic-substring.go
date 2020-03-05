@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func checkPalindrome(rs *[]rune, offset, length int) bool {
 	for i, j, k := 0, length>>1, offset+length-1; i < j; i++ {
 		if (*rs)[offset+i] != (*rs)[k-i] {
@@ -24,10 +22,4 @@ func longestPalindrome(s string) string {
 		}
 	}
 	return s[:1]
-}
-
-func main() {
-	var s string
-	s = "abcdbbfcba"
-	fmt.Println("result: ", longestPalindrome(s))
 }

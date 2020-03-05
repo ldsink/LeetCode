@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 type romanSymbol struct {
 	Symbol string
 	Value  int
@@ -31,9 +29,4 @@ func romanToInt(s string) int {
 		}
 	}
 	return result
-}
-
-func main() {
-	// Output: 1994
-	fmt.Println(romanToInt("MCMXCIV"))
 }

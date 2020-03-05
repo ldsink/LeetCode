@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 var NumRunes = map[rune][]rune{
 	'2': []rune("abc"),
 	'3': []rune("def"),
@@ -35,8 +33,4 @@ func letterCombinations(digits string) []string {
 	current := _processCombine(rs, prefix)
 	result = append(result, current...)
 	return result
-}
-
-func main() {
-	fmt.Println(letterCombinations("23"))
 }

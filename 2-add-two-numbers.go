@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	carry := 0
 	var current *ListNode
@@ -49,19 +47,4 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		result = &node
 	}
 	return result
-}
-
-func main() {
-	// Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
-	node11 := ListNode{Val: 3}
-	node12 := ListNode{Val: 4, Next: &node11}
-	node13 := ListNode{Val: 2, Next: &node12}
-	node21 := ListNode{Val: 4}
-	node22 := ListNode{Val: 6, Next: &node21}
-	node23 := ListNode{Val: 5, Next: &node22}
-
-	current := addTwoNumbers(&node13, &node23)
-	for ; current != nil; current = (*current).Next {
-		fmt.Println(*current)
-	}
 }

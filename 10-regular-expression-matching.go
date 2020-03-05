@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 const DOT rune = '.'
 const WILDCARD rune = '*'
 
@@ -116,31 +114,4 @@ func isMatch(s string, p string) bool {
 	pr = []rune(p)
 	mark := make(Mark)
 	return _isMatch(0, 0, &mark)
-}
-
-func main() {
-	var s, p string
-	s = "a"
-	p = "ab*"
-	fmt.Println(isMatch(s, p))
-
-	s = "aa"
-	p = "a"
-	fmt.Println(isMatch(s, p))
-
-	s = "aa"
-	p = "a*"
-	fmt.Println(isMatch(s, p))
-
-	s = "ab"
-	p = ".*"
-	fmt.Println(isMatch(s, p))
-
-	s = "aab"
-	p = "c*a*b"
-	fmt.Println(isMatch(s, p))
-
-	s = "mississippi"
-	p = "mis*is*p*."
-	fmt.Println(isMatch(s, p))
 }

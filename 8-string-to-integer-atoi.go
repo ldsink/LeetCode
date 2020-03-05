@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 func myAtoi(str string) int {
 	const plusSign rune = '+'
 	const minusSign rune = '-'
@@ -80,24 +76,4 @@ func myAtoi(str string) int {
 		return int(IntMin)
 	}
 	return int(result)
-}
-
-func main() {
-	var s string
-	s = "  0000000000012345678"
-	fmt.Println(myAtoi(s))
-	s = "42"
-	fmt.Println(myAtoi(s))
-	s = "   -42"
-	fmt.Println(myAtoi(s))
-	s = "4193 with words"
-	fmt.Println(myAtoi(s))
-	s = "words and 987"
-	fmt.Println(myAtoi(s))
-	s = "-91283472332"
-	fmt.Println(myAtoi(s))
-	s = "   +0 123"
-	fmt.Println(myAtoi(s))
-	s = "9223372036854775808"
-	fmt.Println(myAtoi(s))
 }

@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func reverse64(x int64) int64 {
 	if x < 0 {
 		r := -reverse64(-x)
@@ -27,9 +25,4 @@ func reverse64(x int64) int64 {
 
 func reverse(x int) int {
 	return int(reverse64(int64(x)))
-}
-
-func main() {
-	x := -2147483648
-	fmt.Println(reverse(x))
 }

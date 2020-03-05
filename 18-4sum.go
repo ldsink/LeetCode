@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -56,12 +55,4 @@ func fourSum(nums []int, target int) [][]int {
 		}
 	}
 	return result
-}
-
-func main() {
-	var nums []int
-	var target int
-	nums = []int{1, 0, -1, 0, -2, 2}
-	target = 0
-	fmt.Println(fourSum(nums, target))
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -49,44 +48,4 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	}
 
 	return (median1 + median2) / 2
-}
-
-func main() {
-	var nums1, nums2 []int
-	var result float64
-
-	nums1 = []int{1}
-	nums2 = []int{}
-	result = findMedianSortedArrays(nums1, nums2)
-	fmt.Println("result: ", result)
-
-	nums1 = []int{0, 0}
-	nums2 = []int{0, 0}
-	result = findMedianSortedArrays(nums1, nums2)
-	fmt.Println("result: ", result)
-
-	nums1 = []int{1, 2, 3}
-	nums2 = []int{}
-	result = findMedianSortedArrays(nums1, nums2)
-	fmt.Println("result: ", result)
-
-	nums1 = []int{2}
-	nums2 = []int{1, 3, 4}
-	result = findMedianSortedArrays(nums1, nums2)
-	fmt.Println("result: ", result)
-
-	nums1 = []int{1, 3}
-	nums2 = []int{2}
-	result = findMedianSortedArrays(nums1, nums2)
-	fmt.Println("result: ", result)
-
-	nums1 = []int{1, 2}
-	nums2 = []int{3, 4}
-	result = findMedianSortedArrays(nums1, nums2)
-	fmt.Println("result: ", result)
-
-	nums1 = []int{1, 7, 8}
-	nums2 = []int{2, 3, 4, 5, 10, 30}
-	result = findMedianSortedArrays(nums1, nums2)
-	fmt.Println("result: ", result)
 }

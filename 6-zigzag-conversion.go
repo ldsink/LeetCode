@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func convert(s string, numRows int) string {
 	if numRows == 1 {
 		return s
@@ -25,19 +23,4 @@ func convert(s string, numRows int) string {
 		}
 	}
 	return string(result)
-}
-
-func main() {
-	var s string
-	var numRows int
-	s = "PAYPALISHIRING"
-	numRows = 1
-	//Output: "PAYPALISHIRING"
-	fmt.Println(convert(s, numRows))
-	numRows = 3
-	//Output: "PAHNAPLSIIGYIR"
-	fmt.Println(convert(s, numRows))
-	numRows = 4
-	//Output: "PINALSIGYAHRPI"
-	fmt.Println(convert(s, numRows))
 }

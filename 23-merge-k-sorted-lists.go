@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 var listNodeHeap []*ListNode
 
 func popNode() *ListNode {
@@ -83,23 +81,4 @@ func mergeKLists(lists []*ListNode) *ListNode {
 		}
 	}
 	return result
-}
-
-func main() {
-	testCase := [][]int{
-		[]int{-8, -7, -7, -5, 1, 1, 3, 4},
-		[]int{-2},
-		[]int{-10, -10, -7, 0, 1, 3},
-		[]int{2},
-	}
-	var lists []*ListNode
-	for _, array := range testCase {
-		r := constructListNode(array)
-		lists = append(lists, r)
-	}
-	result := mergeKLists(lists)
-	for ; result != nil; {
-		fmt.Print((*result).Val, " ")
-		result = (*result).Next
-	}
 }

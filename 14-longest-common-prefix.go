@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func Min(x, y int) int {
 	if x < y {
 		return x
@@ -41,14 +39,4 @@ func longestCommonPrefix(strs []string) string {
 	}
 
 	return result
-}
-
-func main() {
-	var strs []string
-
-	strs = []string{"flower", "flow", "flight"}
-	fmt.Println(longestCommonPrefix(strs))
-
-	strs = []string{"dog", "racecar", "car"}
-	fmt.Println(longestCommonPrefix(strs))
 }

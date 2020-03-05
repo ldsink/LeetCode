@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type ListNode struct {
 	Val  int
@@ -30,4 +32,8 @@ func printListNode(node *ListNode) {
 		fmt.Print((*node).Val, " -> ")
 	}
 	fmt.Println("End")
+}
+
+func main() {
+	fmt.Println("- - - -")
 }
