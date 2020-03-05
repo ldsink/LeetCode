@@ -33,7 +33,3 @@ func printListNode(node *ListNode) {
 	}
 	fmt.Println("End")
 }
-
-func main() {
-	fmt.Println("- - - -")
-}
