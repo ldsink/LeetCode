@@ -33,3 +33,9 @@ func printListNode(node *ListNode) {
 	}
 	fmt.Println("End")
 }
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
