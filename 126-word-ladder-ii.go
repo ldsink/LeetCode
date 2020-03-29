@@ -10,17 +10,17 @@ func diffCount(s1, s2 string) int {
 	return count
 }
 
-func generatePath(index, step int, distance []int, linked [][]int) [][]int {
-	if step == 2 {
+func generatePath(index int, distance []int, linked [][]int) [][]int {
+	if distance[index] == 2 {
 		return [][]int{{index}}
 	}
 	var result [][]int
 	for i := 0; i < len(linked[index]); i++ {
 		j := linked[index][i]
-		if distance[j] != step-1 {
+		if distance[j] != distance[index]-1 {
 			continue
 		}
-		paths := generatePath(j, step-1, distance, linked)
+		paths := generatePath(j, distance, linked)
 		for _, p := range paths {
 			result = append(result, append([]int{index}, p...))
 		}
@@ -41,6 +41,8 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 		return result
 	}
 
+	wordList = append([]string{beginWord}, wordList...)
+	endIndex++
 	var linked [][]int
 	for i := 0; i < len(wordList); i++ {
 		linked = append(linked, []int{})
@@ -68,34 +70,16 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 		}
 	}
 
-	var shortest int
-	for i := 0; i < len(wordList); i++ {
-		if distance[i] == 0 {
-			continue
-		}
-		if diffCount(beginWord, wordList[i]) == 1 {
-			if shortest == 0 || shortest > distance[i] {
-				shortest = distance[i]
-			}
-		}
-	}
-	if shortest == 0 {
+	if distance[0] == 0 {
 		return result
-	} else if shortest == 1 {
-		return [][]string{{beginWord, endWord}}
 	}
-	for i := 0; i < len(wordList); i++ {
-		if distance[i] == shortest && diffCount(beginWord, wordList[i]) == 1 {
-			r := generatePath(i, shortest, distance, linked)
-			for _, indexes := range r {
-				path := []string{beginWord}
-				for _, j := range indexes {
-					path = append(path, wordList[j])
-				}
-				path = append(path, endWord)
-				result = append(result, path)
-			}
+	for _, indexes := range generatePath(0, distance, linked) {
+		var path []string
+		for _, j := range indexes {
+			path = append(path, wordList[j])
 		}
+		path = append(path, endWord)
+		result = append(result, path)
 	}
 	return result
 }
