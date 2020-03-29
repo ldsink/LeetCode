@@ -22,6 +22,8 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 		return 0
 	}
 
+	wordList = append([]string{beginWord}, wordList...)
+	endIndex++
 	var linked [][]int
 	for i := 0; i < len(wordList); i++ {
 		linked = append(linked, []int{})
@@ -48,20 +50,5 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 			stack = append(stack, j)
 		}
 	}
-
-	var shortest int
-	for i := 0; i < len(wordList); i++ {
-		if distance[i] == 0 {
-			continue
-		}
-		if diffCount(beginWord, wordList[i]) == 1 {
-			if shortest == 0 || shortest > distance[i] {
-				shortest = distance[i]
-			}
-		}
-	}
-	if shortest == 0 {
-		return 0
-	}
-	return shortest + 1
+	return distance[0]
 }
