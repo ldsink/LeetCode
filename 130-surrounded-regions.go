@@ -42,22 +42,22 @@ func solve(board [][]byte) {
 		}
 	}
 	for i := 0; i < len(stack); i++ {
-		if x, y := stack[i].x-1, stack[i].y; 0 <= x && x < m && 0 <= y && y < n && board[x][y] == O && !onStack[x][y] {
+		if x, y := stack[i].x-1, stack[i].y; 0 <= x && board[x][y] == O && !onStack[x][y] {
 			onBoard[x][y] = true
 			onStack[x][y] = true
 			stack = append(stack, point{x: x, y: y})
 		}
-		if x, y := stack[i].x, stack[i].y+1; 0 <= x && x < m && 0 <= y && y < n && board[x][y] == O && !onStack[x][y] {
+		if x, y := stack[i].x, stack[i].y+1; y < n && board[x][y] == O && !onStack[x][y] {
 			onBoard[x][y] = true
 			onStack[x][y] = true
 			stack = append(stack, point{x: x, y: y})
 		}
-		if x, y := stack[i].x+1, stack[i].y; 0 <= x && x < m && 0 <= y && y < n && board[x][y] == O && !onStack[x][y] {
+		if x, y := stack[i].x+1, stack[i].y; x < m && board[x][y] == O && !onStack[x][y] {
 			onBoard[x][y] = true
 			onStack[x][y] = true
 			stack = append(stack, point{x: x, y: y})
 		}
-		if x, y := stack[i].x, stack[i].y-1; 0 <= x && x < m && 0 <= y && y < n && board[x][y] == O && !onStack[x][y] {
+		if x, y := stack[i].x, stack[i].y-1; 0 <= y && board[x][y] == O && !onStack[x][y] {
 			onBoard[x][y] = true
 			onStack[x][y] = true
 			stack = append(stack, point{x: x, y: y})
