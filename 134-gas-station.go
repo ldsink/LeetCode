@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 func canCompleteCircuit(gas []int, cost []int) int {
 	netValue := make([]int, len(gas))
 	for i := 0; i < len(gas); i++ {
@@ -11,7 +7,7 @@ func canCompleteCircuit(gas []int, cost []int) int {
 	}
 
 	for station := 0; station < len(gas); station++ {
-		if netValue[station] < 0 || gas[station]-cost[station] < 0 {
+		if netValue[station] < 0 || (netValue[station] == 0 && gas[station] != cost[station]) {
 			continue
 		}
 		gasTank := netValue[station]
@@ -33,17 +29,4 @@ func canCompleteCircuit(gas []int, cost []int) int {
 		}
 	}
 	return -1
-}
-
-func main() {
-	var gas, cost []int
-	gas = []int{2}
-	cost = []int{2}
-	fmt.Println(canCompleteCircuit(gas, cost))
-	gas = []int{1, 2, 3, 4, 5}
-	cost = []int{3, 4, 5, 1, 2}
-	fmt.Println(canCompleteCircuit(gas, cost))
-	gas = []int{2, 3, 4}
-	cost = []int{3, 4, 3}
-	fmt.Println(canCompleteCircuit(gas, cost))
 }
