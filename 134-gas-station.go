@@ -7,7 +7,7 @@ func canCompleteCircuit(gas []int, cost []int) int {
 	}
 
 	for station := 0; station < len(gas); station++ {
-		if netValue[station] < 0 || (netValue[station] == 0 && gas[station] != cost[station]) {
+		if (netValue[station] == 0 && gas[station] != cost[station]) || netValue[station] < 0 {
 			continue
 		}
 		gasTank := netValue[station]
@@ -18,6 +18,9 @@ func canCompleteCircuit(gas []int, cost []int) int {
 			}
 			if i == station {
 				return station
+			}
+			if netValue[i] == 0 {
+				continue
 			}
 			if r := gasTank + netValue[i]; r >= 0 {
 				netValue[i] = 0
