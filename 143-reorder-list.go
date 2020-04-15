@@ -1,15 +1,32 @@
 package main
 
 func reorderList(head *ListNode) {
-	var nodes []*ListNode
-	for node := head; node != nil; node = node.Next {
-		nodes = append(nodes, node)
+	if head == nil || head.Next == nil {
+		return
 	}
-	for i, j := 0, len(nodes)-1; i <= j; i, j = i+1, j-1 {
-		if i+1 >= j {
-			nodes[j].Next = nil
-			break
-		}
-		nodes[i].Next, nodes[j].Next = nodes[j], nodes[i].Next
+
+	// find middle
+	var fast, slow *ListNode
+	for fast, slow = head, head; fast.Next != nil && fast.Next.Next != nil; fast, slow = fast.Next.Next, slow.Next {
+	}
+	if fast.Next != nil {
+		fast = fast.Next
+	}
+
+	// reverse
+	for prev, node := slow.Next, slow.Next.Next; node != nil; {
+		next := node.Next
+		node.Next = prev
+		prev = node
+		node = next
+	}
+	slow.Next.Next = nil
+	slow.Next = nil
+
+	// reorder
+	for left, right := head, fast; left != nil && right != nil; {
+		leftNext, rightNext := left.Next, right.Next
+		left.Next, right.Next = right, leftNext
+		left, right = leftNext, rightNext
 	}
 }
