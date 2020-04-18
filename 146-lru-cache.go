@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 type keyNode struct {
 	Key   int
 	Value int
@@ -26,11 +22,9 @@ func Constructor(capacity int) LRUCache {
 }
 
 func (this *LRUCache) Get(key int) int {
-	node, ok := this.nodes[key]
-	if !ok {
+	if node, ok := this.nodes[key]; !ok {
 		return -1
-	}
-	if node != this.tail {
+	} else if node != this.tail {
 		if node == this.head {
 			this.head = this.head.Next
 			this.head.Prev = nil
@@ -43,7 +37,7 @@ func (this *LRUCache) Get(key int) int {
 		this.tail = node
 		this.tail.Next = nil
 	}
-	return node.Value
+	return this.tail.Value
 }
 
 func (this *LRUCache) Put(key int, value int) {
@@ -69,24 +63,5 @@ func (this *LRUCache) Put(key int, value int) {
 		delete(this.nodes, this.head.Key)
 		this.head = this.head.Next
 		this.head.Prev = nil
-	}
-}
-
-//["LRUCache","put","put","put","put","get","get","get","get","put","get","get","get","get","get"]
-//[[3],[1,1],[2,2],[3,3],[4,4],[4],[3],[2],[1],[5,5],[1],[2],[3],[4],[5]]
-//[null,null,null,null,null,4,3,2,-1,null,-1,2,3,-1,5]
-
-func main() {
-	c := Constructor(3)
-	c.Put(1, 1)
-	c.Put(2, 2)
-	c.Put(3, 3)
-	c.Put(4, 4)
-	for i := 4; i > 0; i-- {
-		fmt.Println(c.Get(i))
-	}
-	c.Put(5, 5)
-	for i := 1; i < 6; i++ {
-		fmt.Println(c.Get(i))
 	}
 }
