@@ -4,7 +4,7 @@ func insertionSortList(head *ListNode) *ListNode {
 	if head == nil {
 		return nil
 	}
-	var result, node, next *ListNode
+	var result, node, next, prev, curr *ListNode
 	for node = head; node != nil; node = next {
 		next = node.Next
 		node.Next = nil
@@ -14,7 +14,6 @@ func insertionSortList(head *ListNode) *ListNode {
 			node.Next = result
 			result = node
 		} else {
-			var prev, curr *ListNode
 			for prev, curr = result, result.Next; curr != nil; prev, curr = curr, curr.Next {
 				if node.Val <= curr.Val {
 					prev.Next = node
