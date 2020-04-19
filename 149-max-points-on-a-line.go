@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"math"
-)
+import "math"
 
 func getLine(p1, p2 [2]int) [3]float64 {
 	if deltaY, deltaX := p1[1]-p2[1], p1[0]-p2[0]; deltaX == 0 {
@@ -60,10 +57,4 @@ func maxPoints(points [][]int) int {
 		}
 	}
 	return result
-}
-
-func main() {
-	r := maxPoints([][]int{{0, 0}, {94911152, 94911151}, {94911151, 94911150}})
-	//r := maxPoints([][]int{{1, 2}, {3, 2}, {5, 3}, {4, 1}, {2, 3}, {1, 4}})
-	fmt.Println(r)
 }
