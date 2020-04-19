@@ -17,8 +17,7 @@ func evalRPN(tokens []string) int {
 		} else if token == "/" {
 			stack[len(stack)-2] /= stack[len(stack)-1]
 			stack = stack[:len(stack)-1]
-		} else {
-			n, _ := strconv.Atoi(token)
+		} else if n, err := strconv.Atoi(token); err == nil {
 			stack = append(stack, n)
 		}
 	}
