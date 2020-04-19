@@ -5,12 +5,26 @@ import (
 	"math"
 )
 
-func getLine(p1, p2 [2]int) [2]float64 {
-	x1, y1, x2, y2 := p1[0], p1[1], p2[0], p2[1]
-	if k := float64(y1-y2) / float64(x1-x2); math.IsInf(k, -1) {
-		return [2]float64{math.Inf(-1), float64(x1)}
+func getLine(p1, p2 [2]int) [3]float64 {
+	if deltaY, deltaX := p1[1]-p2[1], p1[0]-p2[0]; deltaX == 0 {
+		// x = n
+		return [3]float64{0, math.Inf(-1), float64(p1[0])}
+	} else if deltaY == 0 {
+		// y = n
+		return [3]float64{0, 0, float64(p1[1])}
 	} else {
-		return [2]float64{k, float64(y1) - k*float64(x1)}
+		for a, b := deltaX, deltaY; ; a, b = b, a%b {
+			if a%b == 0 {
+				deltaX, deltaY = deltaX/b, deltaY/b
+				break
+			}
+		}
+		if deltaX < 0 {
+			deltaX, deltaY = -deltaX, -deltaY
+		}
+		// y = kx + b
+		k := float64(deltaY) / float64(deltaX)
+		return [3]float64{float64(deltaX), float64(deltaY), float64(p1[1]) - k*float64(p1[0])}
 	}
 }
 
@@ -28,20 +42,17 @@ func maxPoints(points [][]int) int {
 	}
 
 	var result int
-	processed := make(map[[2]float64]bool)
+	processed := make(map[[3]float64]bool)
 	for i := 0; i < len(uniquePoints); i++ {
-		count := make(map[[2]float64]int)
+		count := make(map[[3]float64]int)
 		for j := i + 1; j < len(uniquePoints); j++ {
 			key := getLine(uniquePoints[i], uniquePoints[j])
-			fmt.Println(key)
 			if _, ok := processed[key]; ok {
 				continue
 			}
 			count[key] += uniquePointsCount[uniquePoints[j]]
-			fmt.Println(count[key], len(count))
 		}
 		for key, value := range count {
-			fmt.Println("current", key, value)
 			if result < value+uniquePointsCount[uniquePoints[i]] {
 				result = value + uniquePointsCount[uniquePoints[i]]
 			}
@@ -53,5 +64,6 @@ func maxPoints(points [][]int) int {
 
 func main() {
 	r := maxPoints([][]int{{0, 0}, {94911152, 94911151}, {94911151, 94911150}})
+	//r := maxPoints([][]int{{1, 2}, {3, 2}, {5, 3}, {4, 1}, {2, 3}, {1, 4}})
 	fmt.Println(r)
 }
