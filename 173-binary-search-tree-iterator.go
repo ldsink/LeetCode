@@ -14,11 +14,8 @@ type BSTIterator struct {
 
 func Constructor(root *TreeNode) BSTIterator {
 	iterator := BSTIterator{}
-	for node := root; node != nil; {
-		next := node.Left
-		node.Left = nil
+	for node := root; node != nil; node = node.Left {
 		iterator.stack = append(iterator.stack, node)
-		node = next
 	}
 	return iterator
 }
@@ -28,11 +25,8 @@ func (this *BSTIterator) Next() int {
 	node := this.stack[len(this.stack)-1]
 	num := node.Val
 	this.stack = this.stack[:len(this.stack)-1]
-	for node = node.Right; node != nil; {
-		next := node.Left
-		node.Left = nil
+	for node = node.Right; node != nil; node = node.Left {
 		this.stack = append(this.stack, node)
-		node = next
 	}
 	return num
 }
