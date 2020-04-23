@@ -1,6 +1,6 @@
 package main
 
-func r2n(r rune) int {
+func r2n(r uint8) int {
 	if r == 'A' {
 		return 0
 	} else if r == 'C' {
@@ -13,23 +13,16 @@ func r2n(r rune) int {
 }
 
 func findRepeatedDnaSequences(s string) []string {
+	var result []string
 	sequences := make(map[int]int)
-	funnel := 1<<20 - 1
+	mask := 1<<20 - 1
 	for i, j := 0, 0; i < len(s); i++ {
-		j = ((j << 2) ^ r2n(rune(s[i]))) & funnel
+		j = ((j << 2) ^ r2n(s[i])) & mask
 		if i >= 9 {
 			sequences[j] += 1
-		}
-	}
-	nucleotides := []rune("ACGT")
-	var result []string
-	for sequence, count := range sequences {
-		if count > 1 {
-			var rs []rune
-			for i := 18; i >= 0; i -= 2 {
-				rs = append(rs, nucleotides[(sequence>>uint(i))&0x3])
+			if sequences[j] == 2 {
+				result = append(result, s[i-9:i+1])
 			}
-			result = append(result, string(rs))
 		}
 	}
 	return result
