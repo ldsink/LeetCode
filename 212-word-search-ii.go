@@ -1,48 +1,82 @@
 package main
 
-func searchWord(word string, x, y int, board [][]byte, used [][]bool) bool {
-	if len(word) == 1 {
-		return true
+type dict struct {
+	word     string
+	count    int
+	children [26]*dict
+}
+
+func makeTrie(words []string) *dict {
+	root := &dict{}
+	for _, word := range words {
+		root := root
+		for _, r := range word {
+			key := r - 'a'
+			if root.children[key] == nil {
+				root.children[key] = &dict{}
+				root.count++
+			}
+			root = root.children[key]
+		}
+		root.word = word
+	}
+	return root
+}
+
+var directions = [4][2]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
+
+func search(x, y int, board [][]byte, root *dict, result *[]string) {
+	r := board[x][y]
+	node := root.children[r-'a']
+	if node == nil {
+		return
 	}
 
-	used[x][y] = true
-	success := false
-	if x-1 >= 0 && board[x-1][y] == word[1] && !used[x-1][y] && searchWord(word[1:], x-1, y, board, used) {
-		success = true
-	} else if y-1 >= 0 && board[x][y-1] == word[1] && !used[x][y-1] && searchWord(word[1:], x, y-1, board, used) {
-		success = true
-	} else if x+1 < len(board) && board[x+1][y] == word[1] && !used[x+1][y] && searchWord(word[1:], x+1, y, board, used) {
-		success = true
-	} else if y+1 < len(board[0]) && board[x][y+1] == word[1] && !used[x][y+1] && searchWord(word[1:], x, y+1, board, used) {
-		success = true
+	// add current word
+	if node.word != "" {
+		*result = append(*result, node.word)
+		node.word = ""
+		// prune
+		if node.count == 0 {
+			root.children[r-'a'] = nil
+			root.count--
+			return
+		}
 	}
-	used[x][y] = false
-	return success
+
+	board[x][y] = '.'
+	for _, d := range directions {
+		i, j := x+d[0], y+d[1]
+		if i < 0 || i == len(board) || j < 0 || j == len(board[0]) {
+			continue
+		}
+		if board[i][j] == '.' {
+			continue
+		}
+		search(i, j, board, node, result)
+		if node.count == 0 {
+			root.children[r-'a'] = nil
+			root.count--
+			break
+		}
+		if root.count == 0 {
+			break
+		}
+	}
+	board[x][y] = r
 }
 
 func findWords(board [][]byte, words []string) []string {
-	var m, n int
-	if m = len(board); m == 0 {
-		return []string{}
-	} else if n = len(board[0]); n == 0 {
-		return []string{}
-	}
-
-	position := make(map[byte][][]int)
-	used := make([][]bool, m)
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			position[board[i][j]] = append(position[board[i][j]], []int{i, j})
-		}
-		used[i] = make([]bool, n)
-	}
-
 	var result []string
-	for _, word := range words {
-		for _, p := range position[word[0]] {
-			if searchWord(word, p[0], p[1], board, used) {
-				result = append(result, word)
-				break
+	if len(words) == 0 || len(board) == 0 || len(board[0]) == 0 {
+		return result
+	}
+	root := makeTrie(words)
+	for i := 0; i < len(board); i++ {
+		for j := 0; j < len(board[0]); j++ {
+			search(i, j, board, root, &result)
+			if root.count == 0 {
+				return result
 			}
 		}
 	}
