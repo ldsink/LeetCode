@@ -8,20 +8,11 @@ func findNode(root, node *TreeNode) bool {
 }
 
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
-	}
-
 	if root == p || root == q {
 		return root
-	}
-
-	if root.Left == nil || root.Right == nil {
-		if root.Left == nil && root.Right == nil {
-			return nil
-		} else if root.Left == nil {
-			return lowestCommonAncestor(root.Right, p, q)
-		}
+	} else if root.Left == nil {
+		return lowestCommonAncestor(root.Right, p, q)
+	} else if root.Right == nil {
 		return lowestCommonAncestor(root.Left, p, q)
 	}
 
