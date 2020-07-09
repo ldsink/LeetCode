@@ -21,12 +21,15 @@ func isValid(a, b, e string) bool {
 }
 
 func isAdditiveNumber(num string) bool {
+	if len(num) < 3 {
+		return false
+	}
 	for i := 1; i <= len(num)/2; i++ {
-		if num[i] == '0' {
+		if num[0] == '0' && i != 1 {
 			continue
 		}
 		for j := 1; j <= len(num)/2; j++ {
-			if num[i+j] == '0' && j == 1 {
+			if num[i] == '0' && j != 1 {
 				continue
 			}
 			if isValid(num[:i], num[i:i+j], num[i+j:]) {
