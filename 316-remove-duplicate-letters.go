@@ -1,26 +1,34 @@
 package main
 
-import (
-	"sort"
-)
+import "sort"
 
 var position map[rune][]int
-var valid map[rune]bool
 var result []rune
 var runeSet []rune
 
-func getLetters(index int) {
+func getLetters(index, start int) {
 	if index == len(result) {
 		return
 	}
-	for _, r := range runeSet {
-		if !valid[r] {
-			continue
+	for idx := 0; idx < len(runeSet); idx++ {
+		r := runeSet[idx]
+
+		// 二分找到第一个符合要求的坐标
+		left, right := 0, len(position[r])-1
+		for ; left != right; {
+			middle := (left + right) >> 1
+			if position[r][middle] < start {
+				left = middle + 1
+			} else {
+				right = middle
+			}
 		}
-		start := position[r][0]
+		start := position[r][left]
+
+		// 当前字符是否满足在所有的字符前面。如果满足，当前位置就是这个字符。
 		upper := true
 		for _, nr := range runeSet {
-			if !valid[nr] || nr == r {
+			if nr == r {
 				continue
 			}
 			if position[nr][len(position[nr])-1] < start {
@@ -31,43 +39,25 @@ func getLetters(index int) {
 		if !upper {
 			continue
 		}
-		// 当前字符满足在所有的字符前面，一定是符合要求的
 		result[index] = r
-		delete(valid, r)
-		delete(position, r)
-		// 更新 position 内其他元素的数据
-		for _, nr := range runeSet {
-			if !valid[nr] {
-				continue
-			}
-			var i, j int
-			for i, j = 0, len(position[nr]); i < j; i++ {
-				if position[nr][i] > start {
-					j = i
-					break
-				}
-			}
-			position[nr] = position[nr][j:]
-		}
-		getLetters(index + 1)
+		runeSet = append(runeSet[:idx], runeSet[idx+1:]...)
+		getLetters(index+1, start)
 		return
 	}
 }
 
 func removeDuplicateLetters(s string) string {
 	position = make(map[rune][]int)
-	valid = make(map[rune]bool)
 	for i, r := range []rune(s) {
 		position[r] = append(position[r], i)
-		valid[r] = true
 	}
 	result = make([]rune, len(position))
-	for r, _ := range valid {
+	for r, _ := range position {
 		runeSet = append(runeSet, r)
 	}
 	sort.Slice(runeSet, func(i, j int) bool {
 		return runeSet[i] < runeSet[j]
 	})
-	getLetters(0)
+	getLetters(0, 0)
 	return string(result)
 }
