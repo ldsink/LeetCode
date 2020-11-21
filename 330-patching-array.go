@@ -1,19 +1,12 @@
 package main
 
-import (
-	"sort"
-)
+import "sort"
 
 func minPatches(nums []int, n int) int {
 	var count, idx, edge int
 	sort.Ints(nums)
 	for edge < n {
-		if idx == len(nums) {
-			edge += edge + 1
-			count++
-			continue
-		}
-		if nums[idx] <= edge+1 {
+		if idx < len(nums) && nums[idx] <= edge+1 {
 			edge += nums[idx]
 			idx++
 		} else {
