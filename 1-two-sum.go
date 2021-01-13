@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 type Number struct {
 	value int
 	index int
@@ -96,11 +92,4 @@ func twoSum(nums []int, target int) []int {
 		return []int{array[end].index, array[start].index}
 	}
 	return []int{array[start].index, array[end].index}
-}
-
-func main() {
-	nums := []int{2, 7, 11, 15}
-	target := 26
-	result := twoSum(nums, target)
-	fmt.Println(result)
 }
