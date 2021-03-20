@@ -16,7 +16,6 @@ func romanToInt(s string) int {
 		{Symbol: "L", Value: 50},
 		{Symbol: "XL", Value: 40},
 		{Symbol: "X", Value: 10},
-		{Symbol: "X", Value: 10},
 		{Symbol: "IX", Value: 9},
 		{Symbol: "V", Value: 5},
 		{Symbol: "IV", Value: 4},
