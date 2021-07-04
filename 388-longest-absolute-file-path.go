@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func getFullPath(list []string) []string {
+func getFileFullPath(list []string) []string {
 	var result []string
 	for i := 0; i < len(list); i++ {
 		// 是文件的情况
@@ -18,7 +18,7 @@ func getFullPath(list []string) []string {
 		for j = i + 1; j < len(list) && strings.HasPrefix(list[j], "\t"); j++ {
 			subList = append(subList, list[j][1:])
 		}
-		for _, subPath := range getFullPath(subList) {
+		for _, subPath := range getFileFullPath(subList) {
 			result = append(result, list[i]+"/"+subPath)
 		}
 		i += j - i - 1
@@ -28,12 +28,9 @@ func getFullPath(list []string) []string {
 
 func lengthLongestPath(input string) int {
 	list := strings.Split(input, "\n")
-	list = getFullPath(list)
+	list = getFileFullPath(list)
 	var result int
 	for _, p := range list {
-		if !strings.Contains(p, ".") {
-			continue
-		}
 		if result < len(p) {
 			result = len(p)
 		}
