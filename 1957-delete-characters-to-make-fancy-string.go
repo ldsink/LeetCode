@@ -1,28 +1,28 @@
 package main
 
-import "strings"
-
 func makeFancyString(s string) string {
+	var result []rune
+	rs := []rune(s)
+	var r rune
 	var count int
-	var c string
-	var result []string
-	for i := 0; i < len(s); i++ {
+	for i := 0; i < len(rs); i++ {
 		if count == 0 {
 			count++
-			c = s[i : i+1]
-		} else if s[i:i+1] == c[:1] {
+			r = rs[i]
+		} else if rs[i] == r {
 			if count < 2 {
-				c += s[i : i+1]
+				count++
 			}
-			count++
 		} else {
-			result = append(result, c)
+			for ; count > 0; count-- {
+				result = append(result, r)
+			}
 			count = 1
-			c = s[i : i+1]
+			r = rs[i]
 		}
 	}
-	if c != "" {
-		result = append(result, c)
+	for ; count > 0; count-- {
+		result = append(result, r)
 	}
-	return strings.Join(result, "")
+	return string(result)
 }
