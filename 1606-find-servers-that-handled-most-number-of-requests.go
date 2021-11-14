@@ -5,10 +5,8 @@ import (
 )
 
 type ServerStatus struct {
-	// 服务器编号
-	id int
-	// 服务器可以提供服务的时间
-	ready int
+	id    int // 服务器编号
+	ready int // 服务器可以提供服务的时间
 }
 type ServerHeap []ServerStatus
 
@@ -26,11 +24,10 @@ func (h *ServerHeap) Pop() interface{} {
 }
 
 func getDistance(k, i, j int) int {
-	base := i % k
-	if j >= base {
-		return j - base
+	if j >= i%k {
+		return j - (i % k)
 	}
-	return j + k - base
+	return j + k - (i % k)
 }
 
 func busiestServers(k int, arrival []int, load []int) []int {
