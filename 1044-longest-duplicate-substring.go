@@ -9,8 +9,7 @@ func longestDupSubstring(s string) string {
 	var idx, max int
 	for i := 0; i < len(indexes); i++ {
 		if len(indexes[i]) > 1 {
-			idx = indexes[i][0]
-			max = 1
+			idx, max = indexes[i][0], 1
 			break
 		}
 	}
@@ -18,9 +17,8 @@ func longestDupSubstring(s string) string {
 		return ""
 	}
 	// 下面为至少有长度为 1 的子串的情况
-	var success bool
-	failed := make([]bool, len(s)) // 某个位置明确不支持的长度
-	for i := 2; i < len(s); i++ {  // 当前可以成功的长度
+	failed := make([]bool, len(s))                          // 某个位置明确不支持的长度
+	for i, success := 2, true; success && i < len(s); i++ { // 当前可以成功的长度
 		success = false
 		beginIndex := make([]int, 26)
 		for j := 0; j < len(s)-i; j++ {
@@ -39,14 +37,10 @@ func longestDupSubstring(s string) string {
 				}
 			}
 			if success {
-				max = i
-				idx = j
+				max, idx = i, j
 				break
 			}
 			failed[j] = true // 在 i 这个长度下，这个位置是挂掉的
-		}
-		if !success {
-			break
 		}
 	}
 	return s[idx : idx+max]
