@@ -53,8 +53,14 @@ func eatenApples(apples []int, days []int) int {
 			if appleNode.rotDay < i {
 				continue
 			}
-			result++
-			appleNode.apple -= 1
+			// 直接尽可能吃多的数量
+			num := appleNode.rotDay - i + 1
+			if num > appleNode.apple {
+				num = appleNode.apple
+			}
+			result += num
+			appleNode.apple -= num
+			i += num - 1
 			if appleNode.apple > 0 {
 				heap.Push(&minHeap, appleNode)
 			}
