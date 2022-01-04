@@ -10,8 +10,6 @@ func dp(cat, mouse, step int, searched [][][]int, graph [][]int) int {
 		return MouseWinFlag
 	} else if cat == mouse {
 		return CatWinFlag
-	} else if step == len(graph)*2 {
-		return DrawFlag
 	} else if searched[cat][mouse][step] != PendingFlag {
 		return searched[cat][mouse][step]
 	}
@@ -22,6 +20,7 @@ func dp(cat, mouse, step int, searched [][][]int, graph [][]int) int {
 			r := dp(cat, node, step+1, searched, graph)
 			if r == MouseWinFlag {
 				mouseWin = true
+				break
 			} else if r == DrawFlag {
 				draw = true
 			}
@@ -42,6 +41,7 @@ func dp(cat, mouse, step int, searched [][][]int, graph [][]int) int {
 			r := dp(node, mouse, step+1, searched, graph)
 			if r == CatWinFlag {
 				catWin = true
+				break
 			} else if r == DrawFlag {
 				draw = true
 			}
@@ -64,9 +64,10 @@ func catMouseGame(graph [][]int) int {
 		searched = append(searched, [][]int{})
 		for j := 0; j < len(graph); j++ {
 			var data []int
-			for k := 0; k <= len(graph)*2; k++ {
+			for k := 0; k < len(graph)*2; k++ {
 				data = append(data, PendingFlag)
 			}
+			data = append(data, DrawFlag)
 			searched[i] = append(searched[i], data)
 		}
 	}
