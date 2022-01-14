@@ -1,41 +1,44 @@
 package main
 
+import (
+	"container/heap"
+)
+
+type MinHeap struct {
+	nums1, nums2 []int
+	nodes        [][2]int
+}
+
+func (h MinHeap) Len() int { return len(h.nodes) }
+func (h MinHeap) Less(i, j int) bool {
+	return h.nums1[h.nodes[i][0]]+h.nums2[h.nodes[i][1]] < h.nums1[h.nodes[j][0]]+h.nums2[h.nodes[j][1]]
+}
+func (h MinHeap) Swap(i, j int) { h.nodes[i], h.nodes[j] = h.nodes[j], h.nodes[i] }
+func (h *MinHeap) Push(x interface{}) {
+	(*h).nodes = append((*h).nodes, x.([2]int))
+}
+func (h *MinHeap) Pop() interface{} {
+	x := (*h).nodes[len((*h).nodes)-1]
+	(*h).nodes = (*h).nodes[0 : len((*h).nodes)-1]
+	return x
+}
+
 func kSmallestPairs(nums1 []int, nums2 []int, k int) [][]int {
 	var result [][]int
 	if len(nums1) == 0 || len(nums2) == 0 {
 		return result
 	}
-	startIndex := make([]int, len(nums1))
-	maxSum := nums1[len(nums1)-1] + nums2[len(nums2)-1] + 1
-	for i := 0; i < k; i++ {
-		// init sum
-		current := maxSum
-		first := 0
-		for ; first < len(nums1) && current == maxSum; first++ {
-			if startIndex[first] == len(nums2) {
-				continue
-			}
-			if current > nums1[first]+nums2[startIndex[first]] {
-				current = nums1[first] + nums2[startIndex[first]]
-				break
-			}
+	h := &MinHeap{nums1: nums1, nums2: nums2}
+	h.Push([2]int{0, 0}) // 初始化，添加第一个最小的
+	for i := 0; i < k && h.Len() > 0; i++ {
+		node := heap.Pop(h).([2]int)
+		result = append(result, []int{nums1[node[0]], nums2[node[1]]})
+		if node[1] == 0 && node[0]+1 < len(nums1) { // 刚好是 nums1 某个元素的第一行，把下一个元素也带进去
+			heap.Push(h, [2]int{node[0] + 1, 0})
 		}
-		if current == maxSum {
-			break
+		if node[1]+1 < len(nums2) {
+			heap.Push(h, [2]int{node[0], node[1] + 1})
 		}
-		// greedy
-		for better := first + 1; better < len(nums1); better++ {
-			for j := startIndex[better]; j < startIndex[first]; j++ {
-				if current > nums1[better]+nums2[j] {
-					current = nums1[better] + nums2[j]
-					first = better
-					break
-				}
-			}
-		}
-		// add pair
-		result = append(result, []int{nums1[first], nums2[startIndex[first]]})
-		startIndex[first] ++
 	}
 	return result
 }
