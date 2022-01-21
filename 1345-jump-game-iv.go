@@ -12,6 +12,9 @@ func minJumps(arr []int) int {
 	jumps[0] = 1
 	queue := []int{0}
 	for len(queue) > 0 {
+		if jumps[len(arr)-1] != 0 { // 已经求出最后一个点的最小跳跃次数了，停止搜索
+			break
+		}
 		i := queue[0]
 		queue = queue[1:]
 		// i + 1 满足：i + 1 < arr.length
@@ -37,5 +40,5 @@ func minJumps(arr []int) int {
 		}
 	}
 	// 从 1 开始，所以需要减去 1 才是正确结果
-	return jumps[len(jumps)-1] - 1
+	return jumps[len(arr)-1] - 1
 }
