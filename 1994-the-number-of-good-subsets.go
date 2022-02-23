@@ -15,30 +15,34 @@ func numberOfGoodSubsets(nums []int) int {
 	}
 	mod := 1000000007
 	var result int
-	for i, n := 1, 1<<18; i < n; i++ {
-		flag := 1  //flag在第一次进入时，成为now[j]，之后就乘以now[j];
-		k := 1     //统计这种状态能形成的组合个数，因为乘法，所以初始化为1
-		ok := true //是否合法的标记
-		for j := 17; j >= 0; j-- {
-			if (1<<j)&i > 0 {
-				if flag == -1 {
-					flag = validNums[j]
-					k *= count[validNums[j]]
-				} else {
-					if gcd(flag, validNums[j]) != 1 {
-						ok = false
-						break
-					}
-					flag *= validNums[j]
-					k *= count[validNums[j]]
-					k %= mod
+	for i, end := 1, 1<<18; i < end; i++ {
+		var currMulti, currCount int // 当前状态的乘积，当前的组合个数
+		// 开始计算当前组合是否合法并且计算数量
+		for idx, num := range validNums {
+			if (1<<idx)&i == 0 {
+				continue // 当前组合不包括这个数字，跳过
+			} else if count[num] == 0 {
+				currMulti = 0 // 当前数字不存在，不合法，退出
+				break
+			}
+			if currMulti == 0 {
+				currMulti = num
+				currCount = count[num]
+			} else {
+				if gcd(currMulti, num) != 1 {
+					currMulti = 0 // 重新设置为 0，表示不合法，并且退出
+					break
 				}
+				currMulti *= num
+				currCount *= count[num]
+				currCount %= mod
 			}
 		}
-		if ok {
-			result = (result + k) % mod
+		if currMulti != 0 {
+			result = (result + currCount) % mod
 		}
 	}
+	// 每个位置上的 1 都可以采用采纳或者不采纳的方式，相当于方案 *2，进行处理
 	for i := 0; i < count[1]; i++ {
 		result = (result * 2) % mod
 	}
