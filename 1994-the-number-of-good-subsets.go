@@ -13,17 +13,23 @@ func numberOfGoodSubsets(nums []int) int {
 	for _, num := range nums {
 		count[num]++
 	}
+	mask := 0 // mask 用来标记有效数字是否存在
+	for idx, num := range validNums {
+		if count[num] == 0 {
+			mask ^= 1 << idx
+		}
+	}
 	mod := 1000000007
 	var result int
 	for i, end := 1, 1<<18; i < end; i++ {
+		if (0^i)&mask > 0 {
+			continue // 当前组合包括不存在的数字，跳过
+		}
 		var currMulti, currCount int // 当前状态的乘积，当前的组合个数
 		// 开始计算当前组合是否合法并且计算数量
 		for idx, num := range validNums {
 			if (1<<idx)&i == 0 {
 				continue // 当前组合不包括这个数字，跳过
-			} else if count[num] == 0 {
-				currMulti = 0 // 当前数字不存在，不合法，退出
-				break
 			}
 			if currMulti == 0 {
 				currMulti = num
