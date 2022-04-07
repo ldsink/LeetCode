@@ -28,11 +28,11 @@ func findMinHeightTrees(n int, edges [][]int) []int {
 			leaves = append(leaves, i)
 		}
 	}
-	for ; len(leaves) < count; {
+	for len(leaves) < count {
 		var newLeaves []int
 		for i := 0; i < len(leaves); i++ {
 			n := leaves[i]
-			for k, _ := range adjacency[n] {
+			for k := range adjacency[n] {
 				delete(adjacency[k], n)
 				if len(adjacency[k]) == 1 {
 					newLeaves = append(newLeaves, k)
