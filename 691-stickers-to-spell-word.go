@@ -39,20 +39,23 @@ func minusLetters(sticker, target letters) letters {
 	return result
 }
 
-func dp(stickers []letters, stickerIdx int, target letters, cached map[[3]uint]int) int {
-	key := [3]uint{target[0], target[1], uint(stickerIdx)}
+func dp(stickers []letters, target letters, cached map[[3]uint]int) int {
+	key := [3]uint{target[0], target[1], uint(len(stickers))}
 	// 已经搜索过，不重复搜索
 	if r, ok := cached[key]; ok {
 		return r
 	}
 	// 到贴纸尾部了，还没处理完成
-	if stickerIdx == len(stickers) {
+	if len(stickers) == 0 {
 		cached[key] = -1
 		return -1
 	}
-	result := dp(stickers, stickerIdx+1, target, cached)
+	result := dp(stickers[1:], target, cached)
 	for i, prev := 1, target; i < 16; i++ { // 每个贴纸最多使用 16 次。
-		next := minusLetters(stickers[stickerIdx], prev)
+		if result != -1 && result < i { // 已经有更优解，就不重复计算
+			break
+		}
+		next := minusLetters(stickers[0], prev)
 		if next == prev { // 不能带来字符变动，停止计算
 			break
 		}
@@ -62,7 +65,7 @@ func dp(stickers []letters, stickerIdx int, target letters, cached map[[3]uint]i
 			}
 			break
 		}
-		if count := dp(stickers, stickerIdx+1, next, cached); count != -1 {
+		if count := dp(stickers[1:], next, cached); count != -1 {
 			if result == -1 || result > count+i {
 				result = count + i
 			}
@@ -79,5 +82,5 @@ func minStickers(stickers []string, target string) int {
 	for _, sticker := range stickers {
 		newLetters = append(newLetters, stickerToLetters(sticker))
 	}
-	return dp(newLetters, 0, stickerToLetters(target), cached)
+	return dp(newLetters, stickerToLetters(target), cached)
 }
