@@ -11,7 +11,7 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-func abs(a int) {
+func abs(a int) int {
 	if a >= 0 {
 		return a
 	}
