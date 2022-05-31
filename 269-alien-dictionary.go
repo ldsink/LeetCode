@@ -64,12 +64,8 @@ func alienOrder(words []string) string {
 		if len(order) > 0 {
 			for i := 1; i < len(order); i++ {
 				prev, curr := getIdx(order[i-1]), getIdx(order[i])
-				if !parents[curr][prev] {
-					parents[curr][prev] = true
-				}
-				if !children[prev][curr] {
-					children[prev][curr] = true
-				}
+				parents[curr][prev] = true
+				children[prev][curr] = true
 				if children[curr][prev] || parents[prev][curr] { // 行成回环，返回 false
 					return false
 				}
@@ -97,7 +93,7 @@ func alienOrder(words []string) string {
 				continue
 			}
 			result = append(result, r)
-			for j, _ := range children[idx] { // 删除子节点的父类
+			for j := range children[idx] { // 删除子节点的父类
 				delete(parents[j], idx)
 			}
 			delete(chars, r)
