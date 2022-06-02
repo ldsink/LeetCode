@@ -26,36 +26,31 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 			if parent == nil { // 删除根节点的情况
 				if node.Left == nil {
 					root = node.Right
-					return
 				} else if node.Right == nil {
 					root = node.Left
-					return
-				}
-				root = node.Left
-				if root.Right == nil {
-					root.Right = node.Right
 				} else {
-					target := root.Right
-					root.Right = node.Right
-					arrangeNode(root.Right, target)
-				}
-				return
-			} else { // 删除中间节点的情况
-				if node.Left == nil {
-					if isLeft {
-						parent.Left = node.Right
+					root = node.Left
+					if root.Right == nil {
+						root.Right = node.Right
 					} else {
-						parent.Right = node.Right
+						target := root.Right
+						root.Right = node.Right
+						arrangeNode(root.Right, target)
 					}
-					return
-				} else if node.Right == nil {
-					if isLeft {
-						parent.Left = node.Left
-					} else {
-						parent.Right = node.Left
-					}
-					return
 				}
+			} else if node.Left == nil { // 删除中间节点的情况
+				if isLeft {
+					parent.Left = node.Right
+				} else {
+					parent.Right = node.Right
+				}
+			} else if node.Right == nil {
+				if isLeft {
+					parent.Left = node.Left
+				} else {
+					parent.Right = node.Left
+				}
+			} else {
 				if isLeft {
 					parent.Left = node.Left
 				} else {
@@ -69,7 +64,6 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 					newNode.Right = node.Right
 					arrangeNode(newNode.Right, target)
 				}
-				return
 			}
 		} else if node.Val < key {
 			deleteTreeNode(node.Right, node, false)
@@ -77,7 +71,6 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 			deleteTreeNode(node.Left, node, true)
 		}
 	}
-
 	deleteTreeNode(root, nil, true)
 	return root
 }
