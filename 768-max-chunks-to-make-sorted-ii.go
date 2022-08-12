@@ -1,6 +1,8 @@
 package main
 
-import "sort"
+import (
+	"sort"
+)
 
 func maxChunksToSorted(arr []int) int {
 	sorted := make([]int, len(arr))
@@ -9,26 +11,15 @@ func maxChunksToSorted(arr []int) int {
 	}
 	sort.Ints(sorted)
 
-	hashA, hashB := make(map[int]int), make(map[int]int)
-	isEqual := func(a, b map[int]int) bool {
-		if len(a) != len(b) {
-			return false
-		}
-		for k := range a {
-			if a[k] != b[k] {
-				return false
-			}
-		}
-		return true
-	}
-
-	var result int
-	for i := 0; i < len(arr); i++ {
-		hashA[arr[i]]++
-		hashB[sorted[i]]++
-		if isEqual(hashA, hashB) {
+	var result, sumA, sumB, xorA, xorB int
+	for idx, num := range sorted {
+		sumA += arr[idx]
+		xorA ^= arr[idx]
+		sumB += num
+		xorB ^= num
+		// 用 sum 和 xor 检查，防止越界造成的错误 sum 相等
+		if sumA == sumB && xorA == xorB {
 			result++
-			hashA, hashB = make(map[int]int), make(map[int]int)
 		}
 	}
 	return result
