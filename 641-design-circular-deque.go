@@ -3,18 +3,10 @@ package main
 type MyCircularDeque struct {
 	queue                []int
 	head, tail, count, k int
-	getIndex             func(int) int
 }
 
 func Constructor(k int) MyCircularDeque {
-	var getIndex func(int) int
-	getIndex = func(i int) int {
-		if i >= 0 {
-			return i % k
-		}
-		return getIndex(i + (1+i/k)*k)
-	}
-	return MyCircularDeque{k: k, queue: make([]int, k), getIndex: getIndex}
+	return MyCircularDeque{k: k, queue: make([]int, k)}
 }
 
 func (this *MyCircularDeque) InsertFront(value int) bool {
@@ -22,8 +14,11 @@ func (this *MyCircularDeque) InsertFront(value int) bool {
 		return false
 	}
 	this.count++
-	this.queue[this.getIndex(this.head)] = value
+	this.queue[this.head] = value
 	this.head++
+	if this.head == this.k {
+		this.head = 0
+	}
 	return true
 }
 
@@ -33,7 +28,10 @@ func (this *MyCircularDeque) InsertLast(value int) bool {
 	}
 	this.count++
 	this.tail--
-	this.queue[this.getIndex(this.tail)] = value
+	if this.tail < 0 {
+		this.tail = this.k - 1
+	}
+	this.queue[this.tail] = value
 	return true
 }
 
@@ -43,6 +41,9 @@ func (this *MyCircularDeque) DeleteFront() bool {
 	}
 	this.count--
 	this.head--
+	if this.head < 0 {
+		this.head = this.k - 1
+	}
 	return true
 }
 
@@ -52,6 +53,9 @@ func (this *MyCircularDeque) DeleteLast() bool {
 	}
 	this.count--
 	this.tail++
+	if this.tail == this.k {
+		this.tail = 0
+	}
 	return true
 
 }
@@ -60,14 +64,18 @@ func (this *MyCircularDeque) GetFront() int {
 	if this.count == 0 {
 		return -1
 	}
-	return this.queue[this.getIndex(this.head-1)]
+	idx := this.head - 1
+	if idx < 0 {
+		idx = this.k - 1
+	}
+	return this.queue[idx]
 }
 
 func (this *MyCircularDeque) GetRear() int {
 	if this.count == 0 {
 		return -1
 	}
-	return this.queue[this.getIndex(this.tail)]
+	return this.queue[this.tail]
 }
 
 func (this *MyCircularDeque) IsEmpty() bool {
