@@ -3,41 +3,26 @@ package main
 import "math"
 
 func minSwap(nums1 []int, nums2 []int) int {
-	type Condition struct {
-		num, other, count int
-	}
-	var prev, curr []Condition
-	prev = append(prev, Condition{num: nums1[0], other: nums2[0], count: 0})
-	prev = append(prev, Condition{num: nums2[0], other: nums1[0], count: 1})
+	nums := []*[]int{&nums1, &nums2}
+	count := [2][2]int{{0, 0}, {1, 0}}
 	for i := 1; i < len(nums1); i++ {
-		curr = []Condition{}
-		node := Condition{num: nums1[i], other: nums2[i], count: math.MaxInt}
-		for _, cond := range prev {
-			if node.num > cond.num && node.other > cond.other && node.count > cond.count {
-				node.count = cond.count
+		for j := 0; j < 2; j++ {
+			swap := math.MaxInt
+			for k := 0; k < 2; k++ {
+				if (*nums[j])[i] > (*nums[k])[i-1] && (*nums[j^1])[i] > (*nums[k^1])[i-1] && swap > count[k][(i-1)%2]+j {
+					swap = count[k][(i-1)%2] + j
+				}
 			}
-		}
-		if node.count != math.MaxInt {
-			curr = append(curr, node)
-		}
-
-		node = Condition{num: nums2[i], other: nums1[i], count: math.MaxInt}
-		for _, cond := range prev {
-			if node.num > cond.num && node.other > cond.other && node.count > cond.count {
-				node.count = cond.count
+			if swap == math.MaxInt {
+				swap--
 			}
+			count[j][i%2] = swap
 		}
-		if node.count != math.MaxInt {
-			node.count += 1 // 如果用 nums2 的值，意味着这里有一次交换
-			curr = append(curr, node)
-		}
-		prev = curr
 	}
-	result := math.MaxInt
-	for _, cond := range prev {
-		if result > cond.count {
-			result = cond.count
-		}
+	idx := (len(nums1) - 1) % 2
+	result := count[0][idx]
+	if result > count[1][idx] {
+		result = count[1][idx]
 	}
 	return result
 }
