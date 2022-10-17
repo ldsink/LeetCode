@@ -15,7 +15,7 @@ func totalFruit(fruits []int) (result int) {
 		return
 	}
 	var buckets [][3]int
-	inBucket := func(fruit [2]int) int {
+	inBuckets := func(fruit [2]int) int {
 		for i, bucket := range buckets {
 			if bucket[0] == fruit[0] {
 				return i
@@ -23,17 +23,17 @@ func totalFruit(fruits []int) (result int) {
 		}
 		return -1
 	}
-	getFruitsNum := func() (num int) {
+	getCurrentTotal := func() (num int) {
 		for _, bucket := range buckets {
 			num += bucket[1]
 		}
 		return
 	}
 	for _, fruit := range zipFruits() {
-		if i := inBucket(fruit); i >= 0 {
-			buckets[i][1] += fruit[1]
-			buckets[i][2] = fruit[1]
-			if i == 0 && len(buckets) == 2 {
+		if i := inBuckets(fruit); i >= 0 {
+			buckets[i][1] += fruit[1]        // 总值
+			buckets[i][2] = fruit[1]         // 最近的值
+			if i == 0 && len(buckets) == 2 { // 始终把最新的放在后面
 				buckets[0], buckets[1] = buckets[1], buckets[0]
 			}
 		} else if len(buckets) < 2 {
@@ -41,7 +41,7 @@ func totalFruit(fruits []int) (result int) {
 		} else {
 			buckets = [][3]int{{buckets[1][0], buckets[1][2], buckets[1][2]}, {fruit[0], fruit[1], fruit[1]}}
 		}
-		if r := getFruitsNum(); result < r {
+		if r := getCurrentTotal(); result < r {
 			result = r
 		}
 	}
