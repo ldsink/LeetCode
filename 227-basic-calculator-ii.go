@@ -26,7 +26,7 @@ func calculate(s string) int {
 		} else if s[i] == '(' {
 			operators = append(operators, '(')
 		} else if order, ok := operatorOrder[rune(s[i])]; ok {
-			for ; len(operators) > 0 && operators[len(operators)-1] != '(' && operatorOrder[operators[len(operators)-1]] >= order; {
+			for len(operators) > 0 && operators[len(operators)-1] != '(' && operatorOrder[operators[len(operators)-1]] >= order {
 				if operators[len(operators)-1] == '+' {
 					nums[len(nums)-2] += nums[len(nums)-1]
 				} else if operators[len(operators)-1] == '-' {

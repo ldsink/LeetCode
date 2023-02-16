@@ -34,7 +34,7 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 		count = 0
 	}
 
-	// reverse rest nodes 
+	// reverse rest nodes
 	if previousNode != nil {
 		var headOfRest *ListNode
 		current := previousNode

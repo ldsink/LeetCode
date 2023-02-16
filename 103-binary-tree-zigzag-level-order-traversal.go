@@ -12,7 +12,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 	}
 
 	stack := []Pair{{node: root, level: 0}}
-	for ; len(stack) > 0; {
+	for len(stack) > 0 {
 		nodeWithLevel := stack[0]
 		stack = stack[1:]
 		node, level := *(nodeWithLevel.node), nodeWithLevel.level

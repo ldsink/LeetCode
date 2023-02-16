@@ -9,7 +9,7 @@ func superPow(a int, b []int) int {
 	}
 
 	var values []int
-	for ; len(b) > 0; {
+	for len(b) > 0 {
 		over := 0
 		for i := 0; i < len(b); i++ {
 			b[i] += 10 * over

@@ -8,7 +8,7 @@ func generateMatrix(n int) [][]int {
 	}
 	l, r, t, b := 0, n-1, 0, n-1
 	count := 1
-	for ; l <= r && t <= b; {
+	for l <= r && t <= b {
 		for i := l; i <= r; i++ {
 			matrix[t][i] = count
 			count++

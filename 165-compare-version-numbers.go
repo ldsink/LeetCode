@@ -15,10 +15,10 @@ func compareVersion(version1 string, version2 string) int {
 		n, _ := strconv.Atoi(s)
 		v2 = append(v2, n)
 	}
-	for ; len(v1) < len(v2); {
+	for len(v1) < len(v2) {
 		v1 = append(v1, 0)
 	}
-	for ; len(v2) < len(v1); {
+	for len(v2) < len(v1) {
 		v2 = append(v2, 0)
 	}
 	for i := 0; i < len(v1); i++ {

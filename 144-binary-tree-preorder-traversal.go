@@ -6,7 +6,7 @@ func preorderTraversal(root *TreeNode) []int {
 		return result
 	}
 	stack := []*TreeNode{root}
-	for ; len(stack) > 0; {
+	for len(stack) > 0 {
 		node := stack[len(stack)-1]
 		stack = stack[:len(stack)-1]
 		result = append(result, node.Val)

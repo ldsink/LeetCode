@@ -19,7 +19,7 @@ func calculate(s string) int {
 		} else if s[i] == '(' {
 			operator = append(operator, '(')
 		} else if s[i] == '+' || s[i] == '-' || s[i] == ')' {
-			for ; len(operator) > 0 && operator[len(operator)-1] != '('; {
+			for len(operator) > 0 && operator[len(operator)-1] != '(' {
 				if operator[len(operator)-1] == '+' {
 					nums[len(nums)-2] += nums[len(nums)-1]
 				} else {

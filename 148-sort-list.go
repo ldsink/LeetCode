@@ -23,7 +23,7 @@ func sortList(head *ListNode) *ListNode {
 		left = left.Next
 	}
 	tail := head
-	for ; left != nil && right != nil; {
+	for left != nil && right != nil {
 		if left.Val > right.Val {
 			tail.Next = right
 			right = right.Next

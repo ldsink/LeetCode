@@ -7,10 +7,10 @@ func isAnagram(s string, t string) bool {
 	sc := make(map[rune]int)
 	tc := make(map[rune]int)
 	for _, r := range s {
-		sc[r] ++
+		sc[r]++
 	}
 	for _, r := range t {
-		tc[r] ++
+		tc[r]++
 	}
 	for r, c := range sc {
 		if c != tc[r] {

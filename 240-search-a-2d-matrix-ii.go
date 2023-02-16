@@ -9,7 +9,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 	}
 
 	m, n = m-1, n-1
-	for ; x <= m && y <= n; {
+	for x <= m && y <= n {
 		if matrix[x][n] < target {
 			x++
 			continue

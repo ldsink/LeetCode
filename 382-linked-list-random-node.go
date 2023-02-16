@@ -16,8 +16,10 @@ type Solution struct {
 	list []int
 }
 
-/** @param head The linked list's head.
-  Note that the head is guaranteed to be not null, so it contains at least one node. */
+/*
+  - @param head The linked list's head.
+    Note that the head is guaranteed to be not null, so it contains at least one node.
+*/
 func Constructor(head *ListNode) Solution {
 	solution := Solution{}
 	for ; head != nil; head = head.Next {

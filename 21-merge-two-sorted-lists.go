@@ -15,7 +15,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 		l1 = (*l1).Next
 	}
 	current := result
-	for ; l1 != nil && l2 != nil; {
+	for l1 != nil && l2 != nil {
 		if (*l1).Val > (*l2).Val {
 			(*current).Next = l2
 			current = l2

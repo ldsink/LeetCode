@@ -39,7 +39,7 @@ func process(n int) int {
 
 func isHappy(n int) bool {
 	nums := make(map[int]bool)
-	for ; !nums[n]; {
+	for !nums[n] {
 		nums[n] = true
 		n = process(n)
 		if n == 1 {

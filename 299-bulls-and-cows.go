@@ -17,8 +17,8 @@ func getHint(secret string, guess string) string {
 			bull++
 			continue
 		}
-		expect[secret[i]-'0'] ++
-		actual[guess[i]-'0'] ++
+		expect[secret[i]-'0']++
+		actual[guess[i]-'0']++
 	}
 	for i := 0; i < 10; i++ {
 		cow += min(expect[i], actual[i])

@@ -12,7 +12,7 @@ func spiralOrder(matrix [][]int) []int {
 	}
 
 	l, r, t, b := 0, n-1, 0, m-1
-	for ; l <= r && t <= b; {
+	for l <= r && t <= b {
 		for i := l; i <= r; i++ {
 			result = append(result, matrix[t][i])
 		}

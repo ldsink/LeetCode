@@ -1,7 +1,7 @@
 package main
 
 func hasCycle(head *ListNode) bool {
-	for ; head != nil; {
+	for head != nil {
 		if head == head.Next {
 			return true
 		}

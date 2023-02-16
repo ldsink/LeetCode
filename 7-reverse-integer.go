@@ -9,7 +9,7 @@ func reverse64(x int64) int64 {
 		return r
 	}
 	var bitValues []int64
-	for ; x != 0; {
+	for x != 0 {
 		bitValues = append(bitValues, x%10)
 		x = x / 10
 	}

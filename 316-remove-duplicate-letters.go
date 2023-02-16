@@ -15,7 +15,7 @@ func getLetters(index, start int) {
 
 		// 二分找到第一个符合要求的坐标
 		left, right := 0, len(position[r])-1
-		for ; left != right; {
+		for left != right {
 			middle := (left + right) >> 1
 			if position[r][middle] < start {
 				left = middle + 1

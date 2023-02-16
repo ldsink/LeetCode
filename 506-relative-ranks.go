@@ -25,7 +25,7 @@ func findRelativeRanks(score []int) []string {
 		rankMap[rank[2]] = "Bronze Medal"
 	}
 	for i := 3; i < len(rank); i++ {
-		rankMap[rank[i]] = strconv.Itoa(i+1)
+		rankMap[rank[i]] = strconv.Itoa(i + 1)
 	}
 	var result []string
 	for _, s := range score {

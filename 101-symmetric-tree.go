@@ -5,7 +5,7 @@ func isSymmetric(root *TreeNode) bool {
 		return true
 	}
 	stack := [][2]*TreeNode{[2]*TreeNode{(*root).Left, (*root).Right}}
-	for ; len(stack) > 0; {
+	for len(stack) > 0 {
 		left, right := stack[0][0], stack[0][1]
 		stack = stack[1:]
 		if left == nil && right == nil {

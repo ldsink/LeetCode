@@ -9,7 +9,7 @@ type result332 struct {
 }
 
 func dfs332(graph map[string][]string, airport string, result *result332) {
-	for ; len(graph[airport]) > 0; {
+	for len(graph[airport]) > 0 {
 		port := graph[airport][0]
 		graph[airport] = graph[airport][1:]
 		dfs332(graph, port, result)

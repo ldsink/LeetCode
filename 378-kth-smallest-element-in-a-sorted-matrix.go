@@ -19,7 +19,7 @@ func kthSmallest(matrix [][]int, k int) int {
 			}
 		}
 		result = matrix[pick][idx[pick]]
-		idx[pick] ++
+		idx[pick]++
 	}
 	return result
 }

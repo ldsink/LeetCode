@@ -28,7 +28,7 @@ func _getRegexBlock(index int) regexBlock {
 }
 
 func _isEmptyRegex(index int) bool {
-	for ; index < len(pr); {
+	for index < len(pr) {
 		pb := _getRegexBlock(index)
 		if pb.Type == 2 || pb.Type == 4 {
 			index += 2

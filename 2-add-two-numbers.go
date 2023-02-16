@@ -30,7 +30,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		node.Val = node.Val % 10
 		current = &node
 	}
-	for ; !(carry == 0); {
+	for !(carry == 0) {
 		node := ListNode{
 			Val:  carry,
 			Next: current,

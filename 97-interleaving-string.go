@@ -14,8 +14,7 @@ func dp(s1, s2, s3 string, saved map[int]map[int]bool) bool {
 	} else if len(s2) == 0 {
 		result = s1 == s3
 	} else {
-		result = (s1[0] == s3[0] && dp(s1[1:], s2, s3[1:], saved)) || (
-			s2[0] == s3[0] && dp(s1, s2[1:], s3[1:], saved))
+		result = (s1[0] == s3[0] && dp(s1[1:], s2, s3[1:], saved)) || (s2[0] == s3[0] && dp(s1, s2[1:], s3[1:], saved))
 	}
 	saved[len(s1)][len(s2)] = result
 	return result

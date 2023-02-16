@@ -12,7 +12,7 @@ func levelOrderBottom(root *TreeNode) [][]int {
 	}
 
 	stack := []NodeLevel{NodeLevel{node: root, level: 0}}
-	for ; len(stack) > 0; {
+	for len(stack) > 0 {
 		nodeLevel := stack[0]
 		stack = stack[1:]
 		node, level := *(nodeLevel.node), nodeLevel.level

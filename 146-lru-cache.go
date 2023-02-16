@@ -59,7 +59,7 @@ func (this *LRUCache) Put(key int, value int) {
 	this.tail.Next = &node
 	this.tail = &node
 	this.nodes[key] = &node
-	for ; len(this.nodes) > this.capacity; {
+	for len(this.nodes) > this.capacity {
 		delete(this.nodes, this.head.Key)
 		this.head = this.head.Next
 		this.head.Prev = nil
