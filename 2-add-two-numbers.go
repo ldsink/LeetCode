@@ -1,50 +1,43 @@
 package main
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	carry := 0
-	var current *ListNode
-	for ; l1 != nil && l2 != nil; l1, l2 = (*l1).Next, (*l2).Next {
-		node := ListNode{
-			Val:  (*l1).Val + (*l2).Val + carry,
-			Next: current,
+	var carry int
+	var head, prev, curr *ListNode
+	for ; l1 != nil && l2 != nil; l1, l2, prev = l1.Next, l2.Next, curr {
+		val := l1.Val + l2.Val + carry
+		carry = val / 10
+		curr = &ListNode{Val: val % 10}
+		if head == nil {
+			head = curr
 		}
-		carry = node.Val / 10
-		node.Val = node.Val % 10
-		current = &node
-	}
-	for ; l1 != nil; l1 = (*l1).Next {
-		node := ListNode{
-			Val:  (*l1).Val + carry,
-			Next: current,
+		if prev != nil {
+			prev.Next = curr
 		}
-		carry = node.Val / 10
-		node.Val = node.Val % 10
-		current = &node
 	}
-	for ; l2 != nil; l2 = (*l2).Next {
-		node := ListNode{
-			Val:  (*l2).Val + carry,
-			Next: current,
+	rest := l1
+	if rest == nil {
+		rest = l2
+	}
+	for ; rest != nil; rest, prev = rest.Next, curr {
+		val := rest.Val + carry
+		carry = val / 10
+		curr = &ListNode{Val: val % 10}
+		if head == nil {
+			head = curr
 		}
-		carry = node.Val / 10
-		node.Val = node.Val % 10
-		current = &node
-	}
-	for !(carry == 0) {
-		node := ListNode{
-			Val:  carry,
-			Next: current,
+		if prev != nil {
+			prev.Next = curr
 		}
-		carry = node.Val / 10
-		node.Val = node.Val % 10
-		current = &node
 	}
-
-	// reverse order
-	var result *ListNode
-	for ; current != nil; current = (*current).Next {
-		node := ListNode{Val: (*current).Val, Next: result}
-		result = &node
+	for ; carry != 0; prev = curr {
+		curr = &ListNode{Val: carry % 10}
+		carry /= 10
+		if head == nil {
+			head = curr
+		}
+		if prev != nil {
+			prev.Next = curr
+		}
 	}
-	return result
+	return head
 }
