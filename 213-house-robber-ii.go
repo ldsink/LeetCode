@@ -31,9 +31,9 @@ func rob(nums []int) int {
 		return nums[0]
 	}
 
-	a := robLine(nums[:len(nums)-1])
-	if b := robLine(nums[1:]); a < b {
-		a = b
+	if a, b := robLine(nums[:len(nums)-1]), robLine(nums[1:]); a < b {
+		return b
+	} else {
+		return a
 	}
-	return a
 }
